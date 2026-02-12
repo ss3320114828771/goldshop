@@ -1,65 +1,142 @@
-import Image from "next/image";
+// File: src/app/page.tsx
+'use client'
+
+import { useState, useEffect } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import ProductCard from '@/components/ProductCard'
+import FeatureBox from '@/components/FeatureBox'
 
 export default function Home() {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY })
+    }
+    window.addEventListener('mousemove', handleMouseMove)
+    return () => window.removeEventListener('mousemove', handleMouseMove)
+  }, [])
+
+  const features = [
+    { title: 'Laptops', description: 'Premium & Gaming', icon: '💻', gradient: 'from-blue-400 to-cyan-500' },
+    { title: 'Gold', description: '22K & 24K Pure', icon: '🥇', gradient: 'from-yellow-400 to-amber-500' },
+    { title: 'Jewelry', description: 'Diamond & Platinum', icon: '💎', gradient: 'from-purple-400 to-pink-500' },
+    { title: 'Watches', description: 'Luxury Collection', icon: '⌚', gradient: 'from-emerald-400 to-teal-500' },
+  ]
+
+  const products = [
+    { id: 1, name: 'MacBook Pro', price: '$1999', image: 'n1.jpeg', category: 'Laptop' },
+    { id: 2, name: 'Gold Necklace', price: '$2999', image: 'n2.jpeg', category: 'Jewelry' },
+    { id: 3, name: 'Diamond Ring', price: '$3999', image: 'n3.jpeg', category: 'Jewelry' },
+    { id: 4, name: 'Gaming Laptop', price: '$2499', image: 'n4.jpeg', category: 'Laptop' },
+    { id: 5, name: 'Gold Bracelet', price: '$1599', image: 'n5.jpeg', category: 'Jewelry' },
+  ]
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+    <div className="relative overflow-hidden">
+      {/* Animated Background */}
+      <div className="fixed inset-0 bg-black">
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-black to-blue-900/20"></div>
+        <div 
+          className="absolute w-96 h-96 bg-gradient-to-r from-yellow-400/30 to-amber-600/30 rounded-full filter blur-3xl animate-pulse"
+          style={{ left: `${mousePosition.x * 0.05}px`, top: `${mousePosition.y * 0.05}px` }}
+        ></div>
+        <div 
+          className="absolute w-96 h-96 bg-gradient-to-r from-blue-400/30 to-purple-600/30 rounded-full filter blur-3xl animate-pulse-slow"
+          style={{ right: `${mousePosition.x * 0.03}px`, bottom: `${mousePosition.y * 0.03}px` }}
+        ></div>
+      </div>
+
+      {/* Hero Section */}
+      <section className="relative min-h-screen flex items-center justify-center px-4">
+        <div className="container mx-auto text-center">
+          {/* Animated Text */}
+          <div className="relative perspective-1000">
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 transform-style-3d animate-float">
+              <span className="bg-gradient-to-r from-yellow-400 via-amber-500 to-yellow-400 bg-clip-text text-transparent animate-gradient bg-[length:200%_200%]">
+                Hafiz Sajid Syed
+              </span>
+            </h1>
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/20 to-amber-500/20 filter blur-3xl"></div>
+              <p className="text-xl md:text-2xl text-gray-300 mb-8 relative">
+                <span className="neon-text">Laptop, Gold & Jewelry</span> - Since 1995
+              </p>
+            </div>
+          </div>
+
+          {/* 3D Button */}
+          <div className="relative inline-block group perspective-1000">
+            <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-full filter blur-xl opacity-70 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <Link
+              href="/products"
+              className="relative inline-flex items-center px-8 py-4 bg-gradient-to-r from-yellow-400 to-amber-500 text-black font-bold rounded-full text-lg transform-style-3d group-hover:rotate-x-10 transition-all duration-500 hover:scale-110 hover:shadow-2xl"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+              <span className="relative z-10">Explore Collection</span>
+              <span className="ml-2 group-hover:translate-x-2 transition-transform duration-300">→</span>
+            </Link>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      {/* Features Section */}
+      <section className="relative py-20 px-4">
+        <div className="container mx-auto">
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16">
+            <span className="bg-gradient-to-r from-yellow-400 via-amber-500 to-yellow-400 bg-clip-text text-transparent">
+              Our Premium Collections
+            </span>
+          </h2>
+          
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+            {features.map((feature, index) => (
+              <FeatureBox key={index} {...feature} index={index} />
+            ))}
+          </div>
         </div>
-      </main>
+      </section>
+
+      {/* Featured Products */}
+      <section className="relative py-20 px-4">
+        <div className="container mx-auto">
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16">
+            <span className="bg-gradient-to-r from-yellow-400 via-amber-500 to-yellow-400 bg-clip-text text-transparent">
+              Featured Products
+            </span>
+          </h2>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="relative py-20 px-4">
+        <div className="container mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+            {[
+              { number: '25+', label: 'Years Experience' },
+              { number: '10k+', label: 'Happy Customers' },
+              { number: '500+', label: 'Products' },
+              { number: '50+', label: 'Gold Designs' },
+            ].map((stat, index) => (
+              <div
+                key={index}
+                className="glass-effect rounded-2xl p-6 text-center transform hover:scale-110 transition-all duration-500 hover:shadow-2xl"
+              >
+                <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-yellow-400 to-amber-500 bg-clip-text text-transparent">
+                  {stat.number}
+                </div>
+                <div className="text-sm md:text-base text-gray-400 mt-2">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
-  );
+  )
 }
