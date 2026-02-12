@@ -208,9 +208,3 @@ export default function ProductPage() {
     </div>
   )
 }
-
-// Metadata for the page
-export const metadata = {
-  title: 'Products Collection - Hafiz Sajid Syed',
-  description: 'Browse our premium collection of laptops, gold, jewelry, and luxury watches since 1995',
-}
